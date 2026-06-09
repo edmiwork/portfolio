@@ -41,7 +41,11 @@
       "Bash(git --version)",
       "Bash(git config *)",
       "Bash(ssh -o StrictHostKeyChecking=no -o BatchMode=yes -T git@github.com)",
-      "Bash(brew install *)"
+      "Bash(brew install *)",
+      "Bash(/opt/homebrew/bin/gh --version)",
+      "Bash(/usr/local/bin/gh --version)",
+      "Bash(/opt/homebrew/bin/gh auth *)",
+      "Bash(/usr/local/bin/gh auth *)"
     ]
   }
 }
