@@ -21,7 +21,7 @@ type SwipeMarqueeProps = {
  */
 export function SwipeMarquee({
   children,
-  speed = 0.4,
+  speed = 0.5,
   gapClassName = "gap-12",
   className,
 }: SwipeMarqueeProps) {
@@ -34,13 +34,23 @@ export function SwipeMarquee({
     let raf = 0;
     let paused = false;
     let resumeTimer: ReturnType<typeof setTimeout>;
+    // Track position as a float. Mobile browsers round `scrollLeft` to an
+    // integer, so adding a sub-pixel `speed` each frame would truncate to 0 and
+    // never advance. Accumulating in `pos` and assigning it keeps it moving.
+    let pos = el.scrollLeft;
 
     const step = () => {
       // Skip work entirely when hidden (e.g. desktop where md: shows the other layout).
-      if (el.offsetParent !== null && !paused) {
-        const half = el.scrollWidth / 2;
-        el.scrollLeft += speed;
-        if (half > 0 && el.scrollLeft >= half) el.scrollLeft -= half;
+      if (el.offsetParent !== null) {
+        if (paused) {
+          // User is dragging — follow their manual scroll position.
+          pos = el.scrollLeft;
+        } else {
+          const half = el.scrollWidth / 2;
+          pos += speed;
+          if (half > 0 && pos >= half) pos -= half;
+          el.scrollLeft = pos;
+        }
       }
       raf = requestAnimationFrame(step);
     };
