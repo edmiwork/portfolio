@@ -104,7 +104,17 @@ export function CosmicSpectrum({
       setupScrollAnimations()
     }, containerRef)
 
-    const onResize = () => ScrollTrigger.refresh()
+    // Only refresh on a real width change (e.g. orientation). Mobile browsers
+    // fire `resize` when the address bar shows/hides on scroll; refreshing then
+    // recalculates trigger positions and makes the page jump to "wrong" scroll
+    // positions when scrolling down and back up. Ignoring height-only changes
+    // (paired with svh-based layout + ignoreMobileResize) keeps scrolling stable.
+    let lastWidth = window.innerWidth
+    const onResize = () => {
+      if (window.innerWidth === lastWidth) return
+      lastWidth = window.innerWidth
+      ScrollTrigger.refresh()
+    }
     window.addEventListener("resize", onResize)
 
     // Recalculate trigger positions once layout has settled.
@@ -209,15 +219,15 @@ export function CosmicSpectrum({
   const currentColors = colorThemes[color]
 
   return (
-    <div ref={containerRef} className="relative min-h-screen overflow-x-hidden">
+    <div ref={containerRef} className="relative min-h-[100svh] overflow-x-hidden">
       {/* Gradient Overlay */}
       <div
-        className="gradient-overlay fixed top-20 left-0 w-screen h-screen pointer-events-none z-[5] opacity-0 transition-opacity duration-600"
+        className="gradient-overlay fixed top-20 left-0 w-screen h-[100svh] pointer-events-none z-[5] opacity-0 transition-opacity duration-600"
         style={{ filter: "blur(60px)" }}
       />
 
       {/* Hero Section */}
-      <section className="h-screen w-full p-8 flex flex-col items-center justify-center relative">
+      <section className="h-[100svh] w-full p-8 flex flex-col items-center justify-center relative">
         <h1 className={`hero-title text-center transition-colors duration-300 ${titleClassName}`}>
           <LetterSwapPingPong
             label={title}
@@ -234,20 +244,23 @@ export function CosmicSpectrum({
 
       {/* Scroll hint + scroll-driven spectrum */}
       <>
-          <div className="nav-bottom-center fixed bottom-8 left-1/2 transform -translate-x-1/2 z-[1000] pointer-events-none text-xs uppercase tracking-wide transition-colors duration-300 scroll-hint">
-            {splitText(scrollHint)}
-          </div>
-          <div className="h-[50vh]" />
+          {/* Scroll hint overlaps the mobile bottom-nav, so desktop only */}
+          {isDesktop && (
+            <div className="nav-bottom-center fixed bottom-8 left-1/2 transform -translate-x-1/2 z-[1000] pointer-events-none text-xs uppercase tracking-wide transition-colors duration-300 scroll-hint">
+              {splitText(scrollHint)}
+            </div>
+          )}
+          <div className="h-[50svh]" />
 
           {/* Animation Section */}
-          <div className="animation-section h-screen relative">
-            <div className="fixed bottom-0 left-0 right-0 h-screen pointer-events-none z-10">
+          <div className="animation-section h-[100svh] relative">
+            <div className="fixed bottom-0 left-0 right-0 h-[100svh] pointer-events-none z-10">
           {/* SVG Container */}
           <div
-            className="svg-container absolute bottom-0 left-0 right-0 h-screen opacity-0 z-[15]"
+            className="svg-container absolute bottom-0 left-0 right-0 h-[100svh] opacity-0 z-[15]"
             style={{
               transformOrigin: "bottom",
-              transform: "scaleY(0.05) translateY(100vh)",
+              transform: "scaleY(0.05) translateY(100svh)",
               willChange: "transform, opacity, filter",
             }}
           >
