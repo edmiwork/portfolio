@@ -60,14 +60,16 @@
   src: url("../public/fonts/Neutrek-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  /* block: don't flash a fallback face for display titles — wait briefly for
+     the real font, then show it (avoids the "wrong font for a second" on load). */
+  font-display: block;
 }
 @font-face {
   font-family: "Foun";
   src: url("../public/fonts/Foun.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 /* ------------------------------------------------------------------ */

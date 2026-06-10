@@ -17,7 +17,7 @@ const skills = [
 
 export function About() {
   return (
-    <section id="about" className="px-5 py-24 sm:py-32">
+    <section id="about" className="px-5 pt-6 pb-24 sm:py-32">
       <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
         {/* Portrait / accent panel */}
         <Reveal>

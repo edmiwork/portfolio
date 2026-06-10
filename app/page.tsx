@@ -23,8 +23,10 @@ export default function Home() {
           titleClassName="font-foun uppercase tracking-[0.04em] leading-[0.9] text-[clamp(2.2rem,8vw,6rem)]"
         />
 
-        {/* Opaque, higher-stacked wrapper scrolls over the hero's fixed layers */}
-        <div className="relative z-30 bg-[var(--bg)]">
+        {/* Opaque, higher-stacked wrapper scrolls over the hero's fixed layers.
+            On mobile, pull it up so content appears soon after the spectrum
+            finishes revealing (removes a near-full screen of dead black). */}
+        <div className="relative z-30 bg-[var(--bg)] max-md:-mt-[35svh]">
           <About />
           <Logos />
           <ClientLogos />
