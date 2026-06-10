@@ -2,6 +2,7 @@
 
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
 import { ProgressiveBlur } from "@/components/ui/progressive-blur";
+import { SwipeMarquee } from "@/components/ui/swipe-marquee";
 import { withBase } from "@/lib/site";
 
 // Client logos live in /public/logo. Brands with both a light and dark artwork
@@ -63,6 +64,36 @@ const logos: ClientLogo[] = [
   },
 ];
 
+function LogoMark({ logo }: { logo: ClientLogo }) {
+  const cls = logo.className ?? "h-8 w-auto";
+  if (logo.dark) {
+    return (
+      <>
+        <img
+          src={withBase(logo.light)}
+          alt={logo.alt}
+          className={`${cls} dark:hidden`}
+          draggable={false}
+        />
+        <img
+          src={withBase(logo.dark)}
+          alt={logo.alt}
+          className={`hidden ${cls} dark:block`}
+          draggable={false}
+        />
+      </>
+    );
+  }
+  return (
+    <img
+      src={withBase(logo.light)}
+      alt={logo.alt}
+      className={cls}
+      draggable={false}
+    />
+  );
+}
+
 export function ClientLogos() {
   return (
     <section
@@ -73,7 +104,8 @@ export function ClientLogos() {
         Selected clients
       </p>
 
-      <div className="relative w-full overflow-hidden">
+      {/* Desktop: framer slider with progressive-blur edges */}
+      <div className="relative hidden w-full overflow-hidden md:block">
         <InfiniteSlider
           className="flex h-[76px] w-full items-center"
           duration={32}
@@ -84,29 +116,7 @@ export function ClientLogos() {
               key={logo.id}
               className="flex w-40 items-center justify-center opacity-80 transition-opacity duration-300 hover:opacity-100"
             >
-              {logo.dark ? (
-                <>
-                  <img
-                    src={withBase(logo.light)}
-                    alt={logo.alt}
-                    className={`${logo.className ?? "h-8 w-auto"} dark:hidden`}
-                    draggable={false}
-                  />
-                  <img
-                    src={withBase(logo.dark)}
-                    alt={logo.alt}
-                    className={`hidden ${logo.className ?? "h-8 w-auto"} dark:block`}
-                    draggable={false}
-                  />
-                </>
-              ) : (
-                <img
-                  src={withBase(logo.light)}
-                  alt={logo.alt}
-                  className={logo.className ?? "h-8 w-auto"}
-                  draggable={false}
-                />
-              )}
+              <LogoMark logo={logo} />
             </div>
           ))}
         </InfiniteSlider>
@@ -122,6 +132,18 @@ export function ClientLogos() {
           blurIntensity={1}
         />
       </div>
+
+      {/* Mobile: swipeable auto-scrolling marquee (no heavy backdrop blur) */}
+      <SwipeMarquee className="items-center px-5 md:hidden" gapClassName="gap-10">
+        {logos.map((logo) => (
+          <div
+            key={logo.id}
+            className="flex h-[60px] w-28 shrink-0 items-center justify-center opacity-80"
+          >
+            <LogoMark logo={logo} />
+          </div>
+        ))}
+      </SwipeMarquee>
     </section>
   );
 }

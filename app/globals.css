@@ -150,6 +150,11 @@ html {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   scroll-behavior: smooth;
+  /* Dark base so any overscroll/rubber-band shows the page color, never the
+     fixed hero spectrum layer (which was bleeding blue under the footer). */
+  background-color: var(--bg);
+  /* Stop the bounce that revealed the fixed hero layers past the page edges. */
+  overscroll-behavior-y: none;
 }
 
 body {
@@ -159,8 +164,24 @@ body {
   font-weight: 400;
   line-height: 1.6;
   overflow-x: hidden;
+  overscroll-behavior-y: none;
   transition: background-color 0.5s var(--ease-out-expo),
     color 0.5s var(--ease-out-expo);
+}
+
+/* Native smooth-scroll offset for anchor links (replaces Lenis offset on
+   touch devices) so sections don't hide behind the fixed nav. */
+section[id] {
+  scroll-margin-top: 84px;
+}
+
+/* Hidden scrollbar for swipeable marquees */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 ::selection {

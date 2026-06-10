@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { TextPlugin } from "gsap/TextPlugin"
@@ -40,6 +40,7 @@ export function CosmicSpectrum({
   titleClassName = "text-7xl font-bold tracking-tighter",
 }: CosmicSpectrumProps) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const [isDesktop, setIsDesktop] = useState(false)
 
   const colorThemes = {
     original: ["#340B05", "#0358F7", "#5092C7", "#E1ECFE", "#FFD400", "#FA3D1D", "#FD02F5", "#FFC0FD"],
@@ -53,10 +54,54 @@ export function CosmicSpectrum({
     "beige-black": ["#FEF3C7", "#F59E0B", "#D97706", "#92400E", "#451A03", "#1C1917", "#0C0A09", "#000000"],
   }
 
+  // Detect a true desktop (wide + real hover pointer). The heavy scroll-driven
+  // spectrum only runs here; on phones it caused scroll lag and a blurred logo
+  // that got stuck when scrolling back up (mobile toolbar resize corrupts the
+  // scroll-trigger positions).
   useEffect(() => {
-    // Scope all selectors + tweens to this component for clean teardown.
+    const mq = window.matchMedia("(min-width: 768px) and (hover: hover)")
+    const update = () => setIsDesktop(mq.matches)
+    update()
+    mq.addEventListener("change", update)
+    return () => mq.removeEventListener("change", update)
+  }, [])
+
+  // Intro animations (cheap, one-shot) — run on every viewport.
+  useEffect(() => {
     const ctx = gsap.context(() => {
-      setupAnimations()
+      const heroTl = gsap.timeline({ delay: 0.4 })
+
+      const titleChars = document.querySelectorAll(".hero-title .char")
+      if (titleChars.length > 0) {
+        gsap.set(titleChars, { opacity: 0, filter: "blur(8px)", x: -20 })
+        heroTl.to(
+          titleChars,
+          { opacity: 1, filter: "blur(0px)", x: 0, duration: 0.8, stagger: 0.03, ease: "power2.out" },
+          0,
+        )
+      }
+
+      const textElements = document.querySelectorAll(".hero-text")
+      textElements.forEach((textEl, index) => {
+        gsap.set(textEl, { opacity: 0, y: 30 })
+        heroTl.to(
+          textEl,
+          { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+          0.6 + index * 0.15,
+        )
+      })
+    }, containerRef)
+    return () => ctx.revert()
+  }, [])
+
+  // Heavy scroll-driven spectrum — desktop only.
+  useEffect(() => {
+    if (!isDesktop) return
+
+    ScrollTrigger.config({ ignoreMobileResize: true })
+
+    const ctx = gsap.context(() => {
+      setupScrollAnimations()
     }, containerRef)
 
     const onResize = () => ScrollTrigger.refresh()
@@ -69,64 +114,9 @@ export function CosmicSpectrum({
       window.removeEventListener("resize", onResize)
       ctx.revert()
     }
-  }, [])
+  }, [isDesktop])
 
-  const setupAnimations = () => {
-    // Hero animations
-    const heroTl = gsap.timeline({ delay: 0.5 })
-
-    // Title animation
-    const titleChars = document.querySelectorAll(".hero-title .char")
-    if (titleChars.length > 0) {
-      gsap.set(titleChars, { opacity: 0, filter: "blur(8px)", x: -20 })
-      heroTl.to(
-        titleChars,
-        {
-          opacity: 1,
-          filter: "blur(0px)",
-          x: 0,
-          duration: 0.8,
-          stagger: 0.03,
-          ease: "power2.out",
-        },
-        0,
-      )
-    }
-
-    // Nav items animation
-    const navItems = document.querySelectorAll(".hero-nav-item")
-    navItems.forEach((item) => {
-      gsap.set(item, { opacity: 0, y: 30, filter: "blur(8px)" })
-      heroTl.to(
-        item,
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.8,
-          ease: "power2.out",
-        },
-        0.4,
-      )
-    })
-
-    // Text content animation
-    const textElements = document.querySelectorAll(".hero-text")
-    textElements.forEach((textEl, index) => {
-      gsap.set(textEl, { opacity: 0, y: 50, clipPath: "inset(0 0 100% 0)" })
-      heroTl.to(
-        textEl,
-        {
-          opacity: 1,
-          y: 0,
-          clipPath: "inset(0 0 0% 0)",
-          duration: 0.8,
-          ease: "power2.out",
-        },
-        0.8 + index * 0.2,
-      )
-    })
-
+  const setupScrollAnimations = () => {
     // Scroll hint animation
     const scrollHintChars = document.querySelectorAll(".scroll-hint .char")
     if (scrollHintChars.length > 0) {
@@ -217,11 +207,13 @@ export function CosmicSpectrum({
 
   return (
     <div ref={containerRef} className="relative min-h-screen overflow-x-hidden">
-      {/* Gradient Overlay */}
-      <div
-        className="gradient-overlay fixed top-20 left-0 w-screen h-screen pointer-events-none z-[5] opacity-0 transition-opacity duration-600"
-        style={{ filter: "blur(60px)" }}
-      />
+      {/* Gradient Overlay (desktop only) */}
+      {isDesktop && (
+        <div
+          className="gradient-overlay fixed top-20 left-0 w-screen h-screen pointer-events-none z-[5] opacity-0 transition-opacity duration-600"
+          style={{ filter: "blur(60px)" }}
+        />
+      )}
 
       {/* Hero Section */}
       <section className="h-screen w-full p-8 flex flex-col items-center justify-center relative">
@@ -239,14 +231,17 @@ export function CosmicSpectrum({
         )}
       </section>
 
-      <div className="nav-bottom-center fixed bottom-8 left-1/2 transform -translate-x-1/2 z-[1000] pointer-events-none text-xs uppercase tracking-wide transition-colors duration-300 scroll-hint">
-        {splitText(scrollHint)}
-      </div>
-      <div className="h-[50vh]" />
+      {/* Scroll hint + scroll-driven spectrum — desktop only */}
+      {isDesktop && (
+        <>
+          <div className="nav-bottom-center fixed bottom-8 left-1/2 transform -translate-x-1/2 z-[1000] pointer-events-none text-xs uppercase tracking-wide transition-colors duration-300 scroll-hint">
+            {splitText(scrollHint)}
+          </div>
+          <div className="h-[50vh]" />
 
-      {/* Animation Section */}
-      <div className="animation-section h-screen relative">
-        <div className="fixed bottom-0 left-0 right-0 h-screen pointer-events-none z-10">
+          {/* Animation Section */}
+          <div className="animation-section h-screen relative">
+            <div className="fixed bottom-0 left-0 right-0 h-screen pointer-events-none z-10">
           {/* SVG Container */}
           <div
             className="svg-container absolute bottom-0 left-0 right-0 h-screen opacity-0 z-[15]"
@@ -322,8 +317,10 @@ export function CosmicSpectrum({
               className="hidden h-auto w-[clamp(3rem,7vw,5rem)] dark:block"
             />
           </div>
-        </div>
-      </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

@@ -11,6 +11,15 @@ export function SmoothScroll() {
     ).matches;
     if (prefersReduced) return;
 
+    // Touch devices: skip Lenis entirely. JS smooth-scroll fights the phone's
+    // native momentum scrolling and adds per-frame work, which makes scrolling
+    // feel laggy. Native scroll is smoother on mobile; anchor offsets are
+    // handled via `scroll-margin-top` in CSS.
+    const isTouch =
+      window.matchMedia("(pointer: coarse)").matches ||
+      (typeof navigator !== "undefined" && navigator.maxTouchPoints > 0);
+    if (isTouch) return;
+
     const lenis = new Lenis({
       duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

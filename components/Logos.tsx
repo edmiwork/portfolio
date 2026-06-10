@@ -1,5 +1,7 @@
 "use client";
 
+import { SwipeMarquee } from "@/components/ui/swipe-marquee";
+
 // Replace these with real client logos: drop SVG/PNG files in /public/logos/
 // and swap the <span> wordmarks for <img src="/logos/foo.svg" .../>.
 const brands = [
@@ -25,7 +27,8 @@ export function Logos() {
       <p className="mb-8 text-center text-xs uppercase tracking-[0.25em] text-[var(--muted)]">
         Trusted across industries
       </p>
-      <div className="marquee-wrap relative overflow-hidden">
+      {/* Desktop: CSS marquee (pauses on hover) */}
+      <div className="marquee-wrap relative hidden overflow-hidden md:block">
         <div className="marquee flex w-max items-center gap-12 pr-12">
           {row.map((b, i) => (
             <span
@@ -37,6 +40,18 @@ export function Logos() {
           ))}
         </div>
       </div>
+
+      {/* Mobile: swipeable auto-scrolling marquee */}
+      <SwipeMarquee className="items-center px-5 md:hidden" gapClassName="gap-10">
+        {brands.map((b, i) => (
+          <span
+            key={i}
+            className="whitespace-nowrap font-display text-xl text-[var(--muted)]"
+          >
+            {b}
+          </span>
+        ))}
+      </SwipeMarquee>
     </section>
   );
 }
