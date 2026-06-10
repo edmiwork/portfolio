@@ -68,7 +68,7 @@ const logos: ClientLogo[] = [
     light: "/logo/Clubcamping%20Black.svg",
     dark: "/logo/Clubcamping%20white.svg",
     // Wide wordmark — cap width and let object-contain fit it within the slot.
-    className: "h-11 w-auto max-w-[130px] object-contain",
+    className: "h-14 w-auto max-w-[175px] object-contain",
   },
 ];
 
