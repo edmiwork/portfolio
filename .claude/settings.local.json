@@ -46,7 +46,16 @@
       "Bash(/usr/local/bin/gh --version)",
       "Bash(/opt/homebrew/bin/gh auth *)",
       "Bash(/usr/local/bin/gh auth *)",
-      "Bash(curl -s https://api.github.com/repos/cli/cli/releases/latest)"
+      "Bash(curl -s https://api.github.com/repos/cli/cli/releases/latest)",
+      "Bash(export PATH=\"$HOME/.local/ghcli/gh_2.93.0_macOS_arm64/bin:$PATH\")",
+      "Bash(gh run *)",
+      "Bash(NEXT_PUBLIC_BASE_PATH=/portfolio npm run build)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://edmiwork.github.io/portfolio/)",
+      "Bash(curl -s https://edmiwork.github.io/portfolio/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://edmiwork.github.io/fonts/Foun.otf)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://edmiwork.github.io/portfolio/fonts/Foun.otf)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://edmiwork.github.io/logo/blanco.svg)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://edmiwork.github.io/portfolio/logo/blanco.svg)"
     ]
   }
 }
