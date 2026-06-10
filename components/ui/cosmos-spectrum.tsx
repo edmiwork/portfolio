@@ -94,10 +94,10 @@ export function CosmicSpectrum({
     return () => ctx.revert()
   }, [])
 
-  // Heavy scroll-driven spectrum — desktop only.
+  // Scroll-driven spectrum — runs on all viewports. The "e" logo (.main-title)
+  // is only rendered on desktop, so the timeline guards against its absence.
+  // `isDesktop` is a dependency so the logo is picked up when it mounts.
   useEffect(() => {
-    if (!isDesktop) return
-
     ScrollTrigger.config({ ignoreMobileResize: true })
 
     const ctx = gsap.context(() => {
@@ -142,9 +142,12 @@ export function CosmicSpectrum({
     })
 
     const wavelengthLabels = document.querySelectorAll(".wavelength-label")
-    const mainTitle = document.querySelector(".main-title")
+    const mainTitle = document.querySelector(".main-title") // null on mobile (logo hidden)
+    const revealTargets = [...wavelengthLabels, mainTitle].filter(Boolean) as Element[]
 
-    gsap.set([...wavelengthLabels, mainTitle], { opacity: 0, y: 30, filter: "blur(8px)" })
+    if (revealTargets.length) {
+      gsap.set(revealTargets, { opacity: 0, y: 30, filter: "blur(8px)" })
+    }
 
     tl.to(".svg-container", { opacity: 1, duration: 0.01 }, 0)
       .to(".text-grid", { opacity: 1, duration: 0.01 }, 0)
@@ -177,7 +180,7 @@ export function CosmicSpectrum({
         0.2,
       )
       .to(
-        [...wavelengthLabels, mainTitle],
+        revealTargets,
         {
           duration: 0.8,
           y: 0,
@@ -207,13 +210,11 @@ export function CosmicSpectrum({
 
   return (
     <div ref={containerRef} className="relative min-h-screen overflow-x-hidden">
-      {/* Gradient Overlay (desktop only) */}
-      {isDesktop && (
-        <div
-          className="gradient-overlay fixed top-20 left-0 w-screen h-screen pointer-events-none z-[5] opacity-0 transition-opacity duration-600"
-          style={{ filter: "blur(60px)" }}
-        />
-      )}
+      {/* Gradient Overlay */}
+      <div
+        className="gradient-overlay fixed top-20 left-0 w-screen h-screen pointer-events-none z-[5] opacity-0 transition-opacity duration-600"
+        style={{ filter: "blur(60px)" }}
+      />
 
       {/* Hero Section */}
       <section className="h-screen w-full p-8 flex flex-col items-center justify-center relative">
@@ -231,9 +232,8 @@ export function CosmicSpectrum({
         )}
       </section>
 
-      {/* Scroll hint + scroll-driven spectrum — desktop only */}
-      {isDesktop && (
-        <>
+      {/* Scroll hint + scroll-driven spectrum */}
+      <>
           <div className="nav-bottom-center fixed bottom-8 left-1/2 transform -translate-x-1/2 z-[1000] pointer-events-none text-xs uppercase tracking-wide transition-colors duration-300 scroll-hint">
             {splitText(scrollHint)}
           </div>
@@ -304,23 +304,25 @@ export function CosmicSpectrum({
             </svg>
           </div>
 
-          {/* Main Title — Edgar logo (B/W per theme) */}
-          <div className="main-title absolute bottom-1/2 left-1/2 z-20 -translate-x-1/2 translate-y-1/2 transform opacity-0">
-            <img
-              src={withBase("/logo/Negro.svg")}
-              alt="Edgar Millán"
-              className="block h-auto w-[clamp(3rem,7vw,5rem)] dark:hidden"
-            />
-            <img
-              src={withBase("/logo/blanco.svg")}
-              alt="Edgar Millán"
-              className="hidden h-auto w-[clamp(3rem,7vw,5rem)] dark:block"
-            />
-          </div>
+          {/* Main Title — Edgar logo (B/W per theme). Desktop only; hidden on
+              mobile so it can't get stuck blurred when scrolling back up. */}
+          {isDesktop && (
+            <div className="main-title absolute bottom-1/2 left-1/2 z-20 -translate-x-1/2 translate-y-1/2 transform opacity-0">
+              <img
+                src={withBase("/logo/Negro.svg")}
+                alt="Edgar Millán"
+                className="block h-auto w-[clamp(3rem,7vw,5rem)] dark:hidden"
+              />
+              <img
+                src={withBase("/logo/blanco.svg")}
+                alt="Edgar Millán"
+                className="hidden h-auto w-[clamp(3rem,7vw,5rem)] dark:block"
+              />
+            </div>
+          )}
             </div>
           </div>
         </>
-      )}
     </div>
   )
 }
