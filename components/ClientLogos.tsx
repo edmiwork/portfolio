@@ -62,6 +62,14 @@ const logos: ClientLogo[] = [
     light: "/logo/ITG.svg",
     className: "h-9 w-auto",
   },
+  {
+    id: "clubcamping",
+    alt: "Club Camping",
+    light: "/logo/Clubcamping%20Black.svg",
+    dark: "/logo/Clubcamping%20white.svg",
+    // Wide wordmark — cap width and let object-contain fit it within the slot.
+    className: "h-11 w-auto max-w-[130px] object-contain",
+  },
 ];
 
 function LogoMark({ logo }: { logo: ClientLogo }) {
