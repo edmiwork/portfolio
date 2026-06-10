@@ -55,7 +55,9 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://edmiwork.github.io/fonts/Foun.otf)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://edmiwork.github.io/portfolio/fonts/Foun.otf)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://edmiwork.github.io/logo/blanco.svg)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://edmiwork.github.io/portfolio/logo/blanco.svg)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://edmiwork.github.io/portfolio/logo/blanco.svg)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"https://edmiwork.github.io/portfolio/logo/Clubcamping%20Black.svg\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"https://edmiwork.github.io/portfolio/logo/Clubcamping%20white.svg\")"
     ]
   }
 }
