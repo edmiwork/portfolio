@@ -30,6 +30,7 @@ export const projects: Project[] = [
       "Limited-edition bottle concept pairing Budweiser with The Weeknd's Starboy — vibrant neon art direction and a custom label crafted for a music-driven launch.",
     tags: ["Packaging", "Art Direction", "Product"],
     image: "/projects/Cerveza.png",
+    url: "https://www.behance.net/gallery/186415409/Collaboration-BudweiserThe-Weeknd-Concept",
     accent: ["#ff2d78", "#7b2ff7"],
   },
   {
