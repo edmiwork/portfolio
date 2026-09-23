@@ -78,6 +78,7 @@ export const projects: Project[] = [
       "Website design for a platform connecting animation talent across Latin America — expressive identity, custom illustration and a clear, content-rich UI.",
     tags: ["Web Design", "UI/UX", "Branding"],
     image: "/projects/web.jpg",
+    url: "https://www.behance.net/gallery/199499289/Del-lapiz-para-el-mundo",
     accent: ["#ff2d78", "#ff3b2f"],
   },
   {
