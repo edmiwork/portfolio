@@ -90,6 +90,7 @@ export const projects: Project[] = [
       "Social content system for an organic poultry and food brand — recipe posts, campaign graphics and a consistent, appetizing visual language for Instagram.",
     tags: ["Social Media", "Content Design", "Branding"],
     image: "/projects/redes.jpg",
+    url: "https://www.behance.net/gallery/231864121/Agropena-Branding-Visual-Identity",
     accent: ["#ff7a18", "#ff2d78"],
   },
 ];
