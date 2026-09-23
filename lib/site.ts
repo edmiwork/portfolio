@@ -13,6 +13,7 @@ export const site = {
   fullName: "Edgar Muñoz Millán",
   role: "Visual Communication Designer",
   tagline: "Creating brands, stories, and experiences that matter.",
+  url: "https://edgarmillan.com",
 
   // Small kicker shown above the big headline.
   heroKicker: "Edgar Millán",

@@ -5,14 +5,46 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { site } from "@/lib/site";
 
+const description =
+  "Edgar Muñoz Millán — Visual Communication Designer. Brand identity, visual systems, web design and product design that help businesses connect.";
+
 export const metadata: Metadata = {
-  title: `${site.fullName} — ${site.role}`,
-  description:
-    "Edgar Muñoz Millán — Visual Communication Designer. Brand identity, visual systems, web design and product design that help businesses connect.",
+  metadataBase: new URL(site.url),
+  title: {
+    default: `${site.fullName} — ${site.role}`,
+    template: `%s — ${site.fullName}`,
+  },
+  description,
+  keywords: [
+    "Edgar Millán",
+    "Edgar Muñoz Millán",
+    "visual designer",
+    "brand identity designer",
+    "graphic designer portfolio",
+    "web design",
+    "product design",
+  ],
+  authors: [{ name: site.fullName, url: site.url }],
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     title: `${site.fullName} — ${site.role}`,
     description: site.tagline,
+    url: site.url,
+    siteName: site.fullName,
+    images: [{ url: "/pictures/foto de perfil copia.jpg", width: 1200, height: 1200 }],
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.fullName} — ${site.role}`,
+    description: site.tagline,
+    images: ["/pictures/foto de perfil copia.jpg"],
   },
 };
 
