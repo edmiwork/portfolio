@@ -42,6 +42,7 @@ export const projects: Project[] = [
       "A bold, illustrated cereal box concept for a fantasy-themed Kellogg's release — custom lettering, character art and a playful package system built to pop on shelf.",
     tags: ["Packaging", "Illustration", "Concept"],
     image: "/projects/cereal.jpg",
+    url: "https://www.behance.net/gallery/202356693/Packaging-Design-and-Brand-Character-for-Cereal-Box",
     accent: ["#1fb6a6", "#ff3b2f"],
   },
   {
