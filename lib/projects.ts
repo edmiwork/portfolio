@@ -30,6 +30,7 @@ export const projects: Project[] = [
       "Limited-edition bottle concept pairing Budweiser with The Weeknd's Starboy — vibrant neon art direction and a custom label crafted for a music-driven launch.",
     tags: ["Packaging", "Art Direction", "Product"],
     image: "/projects/Cerveza.png",
+    url: "https://www.behance.net/gallery/186415409/Collaboration-BudweiserThe-Weeknd-Concept",
     accent: ["#ff2d78", "#7b2ff7"],
   },
   {
@@ -42,6 +43,7 @@ export const projects: Project[] = [
       "A bold, illustrated cereal box concept for a fantasy-themed Kellogg's release — custom lettering, character art and a playful package system built to pop on shelf.",
     tags: ["Packaging", "Illustration", "Concept"],
     image: "/projects/cereal.jpg",
+    url: "https://www.behance.net/gallery/202356693/Packaging-Design-and-Brand-Character-for-Cereal-Box",
     accent: ["#1fb6a6", "#ff3b2f"],
   },
   {
@@ -78,6 +80,7 @@ export const projects: Project[] = [
       "Website design for a platform connecting animation talent across Latin America — expressive identity, custom illustration and a clear, content-rich UI.",
     tags: ["Web Design", "UI/UX", "Branding"],
     image: "/projects/web.jpg",
+    url: "https://www.behance.net/gallery/199499289/Del-lapiz-para-el-mundo",
     accent: ["#ff2d78", "#ff3b2f"],
   },
   {
@@ -90,6 +93,7 @@ export const projects: Project[] = [
       "Social content system for an organic poultry and food brand — recipe posts, campaign graphics and a consistent, appetizing visual language for Instagram.",
     tags: ["Social Media", "Content Design", "Branding"],
     image: "/projects/redes.jpg",
+    url: "https://www.behance.net/gallery/231864121/Agropena-Branding-Visual-Identity",
     accent: ["#ff7a18", "#ff2d78"],
   },
 ];
