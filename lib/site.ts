@@ -42,7 +42,7 @@ export const site = {
   heroVideo: "",
   heroVideoPoster: "",
   email: "edmiwork@gmail.com",
-  cvUrl: "/edgar-millan-cv.pdf", // TODO: drop your CV here -> public/edgar-millan-cv.pdf
+  cvUrl: "/edgar-millan-cv.pdf",
 
   // Contact form: create a free form at https://web3forms.com and paste the
   // access key here. Leave empty to fall back to a mailto: link.
