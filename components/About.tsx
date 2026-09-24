@@ -79,7 +79,7 @@ export function About() {
             <a
               href={site.cvUrl}
               download
-              className="btn btn-outline mt-8"
+              className="btn btn-invert mt-8"
             >
               Download CV
               <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">

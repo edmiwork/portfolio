@@ -436,6 +436,14 @@ section[id] {
   .btn-outline:hover {
     background: var(--bg-elev);
   }
+  .btn-invert {
+    border: none;
+    background: var(--text);
+    color: var(--bg);
+  }
+  .btn-invert:hover {
+    opacity: 0.85;
+  }
 }
 
 /* Focus visibility -------------------------------------------------- */
