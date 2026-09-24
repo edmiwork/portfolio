@@ -11,8 +11,8 @@ const description =
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.fullName} — ${site.role}`,
-    template: `%s — ${site.fullName}`,
+    default: `${site.name} | Portfolio`,
+    template: `%s | ${site.name}`,
   },
   description,
   keywords: [
